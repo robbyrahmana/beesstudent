@@ -3,6 +3,8 @@ package com.elephants.beesstudent.base.rest;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,7 +21,19 @@ public abstract class AbstractBaseRest<T extends BaseModel, ID extends Serializa
 {
 
     protected abstract BaseService<T, ID> getService();
-
+    
+    /**
+     * 
+     * @param pageable
+     * @return
+     */
+    @GetMapping(path = "/pageable")
+    protected Page<T> getPage(Pageable pageable)
+    {
+        Base.LOGGER.info("Invoke AbstractBaseRest getPage(Pageable pageable) with pageable: {}", pageable);
+        return this.getService().findAll(pageable);
+    }
+    
     /**
      * @param id
      * @return

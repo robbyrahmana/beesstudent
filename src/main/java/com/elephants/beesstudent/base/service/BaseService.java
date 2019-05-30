@@ -3,10 +3,15 @@ package com.elephants.beesstudent.base.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.elephants.beesstudent.base.model.BaseModel;
 
 public interface BaseService<T extends BaseModel, ID extends Serializable>
 {
+    Page<T> findAll(Pageable pageable);
+    
     T find(ID id);
     
     List<T> findAll();

@@ -4,23 +4,25 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
 import com.elephants.beesstudent.base.model.BaseModel;
 
 @NoRepositoryBean
-public interface BaseCRUDRepository<T extends BaseModel, ID extends Serializable> extends Repository<T, ID>
+public interface BaseRepository<T extends BaseModel, ID extends Serializable> extends Repository<T, ID>
 {
-
+    
     /**
-     * Saves an entity and flushes changes instantly.
+     * Returns a {@link Page} of entities meeting the paging restriction provided in the {@code Pageable} object.
      *
-     * @param entity
-     * @return the saved entity
+     * @param pageable
+     * @return a page of entities
      */
-    <S extends T> S saveAndFlush(S entity);
-
+    Page<T> findAll(Pageable pageable);
+    
     /**
      * Returns all instances of the type.
      *
@@ -44,5 +46,13 @@ public interface BaseCRUDRepository<T extends BaseModel, ID extends Serializable
      * @throws IllegalArgumentException if {@code id} is {@literal null}.
      */
     Optional<T> findById(ID id);
+    
+    /**
+     * Saves an entity and flushes changes instantly.
+     *
+     * @param entity
+     * @return the saved entity
+     */
+    <S extends T> S saveAndFlush(S entity);
 
 }
